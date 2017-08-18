@@ -1,0 +1,218 @@
+{
+	"aliases": {},
+	"mappings": {
+		"article": {
+			"properties": {
+				"authors": {
+					"type": "nested",
+					"properties": {
+						"id": {
+							"type": "keyword"
+						},
+						"influence": {
+							"type": "double"
+						}
+					}
+				},
+				"body": {
+					"type": "text",
+					"fields": {
+						"casesensitive": {
+							"type": "text",
+							"analyzer": "spec_char_analyzer",
+							"search_analyzer": "spec_char_search_analyzer"
+						}
+					},
+					"analyzer": "lower_spec_char_analyzer",
+					"search_analyzer": "lower_spec_char_search_analyzer"
+				},
+				"citations": {
+					"type": "integer"
+				},
+				"comments": {
+					"type": "integer"
+				},
+				"id": {
+					"type": "keyword"
+				},
+				"isActive": {
+					"type": "boolean"
+				},
+				"isOffline": {
+					"type": "boolean"
+				},
+				"isPressRelease": {
+					"type": "boolean"
+				},
+				"likes": {
+					"type": "integer"
+				},
+				"media": {
+					"type": "nested",
+					"properties": {
+						"countryId": {
+							"type": "keyword"
+						},
+						"id": {
+							"type": "keyword"
+						},
+						"influence": {
+							"type": "double"
+						}
+					}
+				},
+				"publicationDate": {
+					"type": "date"
+				},
+				"socialMediaType": {
+					"type": "integer"
+				},
+				"tags": {
+					"type": "keyword"
+				},
+				"title": {
+					"type": "text",
+					"fields": {
+						"casesensitive": {
+							"type": "text",
+							"analyzer": "spec_char_analyzer",
+							"search_analyzer": "spec_char_search_analyzer"
+						}
+					},
+					"analyzer": "lower_spec_char_analyzer",
+					"search_analyzer": "lower_spec_char_search_analyzer"
+				},
+				"userTopics": {
+					"type": "nested",
+					"properties": {
+						"hash": {
+							"type": "keyword"
+						},
+						"idealArticleIndex": {
+							"type": "double"
+						},
+						"prIndex": {
+							"type": "double"
+						},
+						"role": {
+							"type": "keyword"
+						},
+						"sentiment": {
+							"type": "double"
+						}
+					}
+				}
+			}
+		}
+	},
+	"settings": {
+		"index": {
+			"refresh_interval": "1m",
+			"number_of_shards": "1",
+			"analysis": {
+				"filter": {
+					"word_delimiter_2": {
+						"split_on_numerics": "false",
+						"split_on_case_change": "false",
+						"type": "word_delimiter",
+						"type_table": [
+							"+ => ALPHA",
+							"- => ALPHA",
+							"_ => ALPHA",
+							"# => ALPHA",
+							"@ => ALPHA",
+							"$ => ALPHA",
+							"& => ALPHA",
+							"0 => ALPHA",
+							"1 => ALPHA",
+							"2 => ALPHA",
+							"3 => ALPHA",
+							"4 => ALPHA",
+							"5 => ALPHA",
+							"6 => ALPHA",
+							"7 => ALPHA",
+							"8 => ALPHA",
+							"9 => ALPHA"
+						],
+						"preserve_original": "true",
+						"generate_number_parts": "false"
+					},
+					"word_delimiter_1": {
+						"split_on_numerics": "false",
+						"split_on_case_change": "false",
+						"type": "word_delimiter",
+						"preserve_original": "true",
+						"generate_number_parts": "false"
+					},
+					"search_delimiter": {
+						"split_on_numerics": "false",
+						"split_on_case_change": "false",
+						"type": "word_delimiter",
+						"type_table": [
+							"+ => ALPHA",
+							"- => ALPHA",
+							"_ => ALPHA",
+							"# => ALPHA",
+							"@ => ALPHA",
+							"$ => ALPHA",
+							"& => ALPHA",
+							"0 => ALPHA",
+							"1 => ALPHA",
+							"2 => ALPHA",
+							"3 => ALPHA",
+							"4 => ALPHA",
+							"5 => ALPHA",
+							"6 => ALPHA",
+							"7 => ALPHA",
+							"8 => ALPHA",
+							"9 => ALPHA"
+						],
+						"preserve_original": "true",
+						"generate_number_parts": "false"
+					},
+					"uniq": {
+						"type": "unique",
+						"only_on_same_position": "true"
+					}
+				},
+				"analyzer": {
+					"lower_spec_char_search_analyzer": {
+						"filter": [
+							"lowercase",
+							"search_delimiter"
+						],
+						"type": "custom",
+						"tokenizer": "whitespace"
+					},
+					"spec_char_analyzer": {
+						"filter": [
+							"word_delimiter_1",
+							"word_delimiter_2",
+							"uniq"
+						],
+						"type": "custom",
+						"tokenizer": "whitespace"
+					},
+					"spec_char_search_analyzer": {
+						"filter": [
+							"search_delimiter"
+						],
+						"type": "custom",
+						"tokenizer": "whitespace"
+					},
+					"lower_spec_char_analyzer": {
+						"filter": [
+							"lowercase",
+							"word_delimiter_1",
+							"word_delimiter_2",
+							"uniq"
+						],
+						"type": "custom",
+						"tokenizer": "whitespace"
+					}
+				}
+			},
+			"number_of_replicas": "1"
+		}
+	}
+}
